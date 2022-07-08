@@ -1,0 +1,17 @@
+1 - Create a springboot app as usual and put the salaries file to the resources folder
+
+2 - the salaries file contains these columns:
+ID, FIRST NAME, LAST NAME, FIRST NAME + LAST NAME, TAX ID, COMPANY WHERE THE PERSON WORKS, CITY WHERE HE WORKS, THE SALARY, THE OCCUPATION, NOTES
+
+you will need this info to design the model.
+
+you might need to delete the second row which contains the explanation for the file. Its useless when you read excel file and can throw exceptions.
+
+3- We need the app to have these endponts:
+
+1 - a get endpoint that triggers the reading of the excel file and returns the list of information
+2 - a get endpoint that reads the excel file and imports all of the records on the mongo db
+3 - a post endpoint that adds a new citizen information to the mongo db
+4 - a get endpoint that returns all the records with salary higher than 70 000
+5 - a get endpoint that returns all of the records with salary less that 70 000
+ 
