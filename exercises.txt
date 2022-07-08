@@ -12,6 +12,12 @@ you might need to delete the second row which contains the explanation for the f
 1 - a get endpoint that triggers the reading of the excel file and returns the list of information
 2 - a get endpoint that reads the excel file and imports all of the records on the mongo db
 3 - a post endpoint that adds a new citizen information to the mongo db
+
+after you are done importing every information to mongo db proceed with these:
+
 4 - a get endpoint that returns all the records with salary higher than 70 000
-5 - a get endpoint that returns all of the records with salary less that 70 000
+5 - a get endpoint that returns all of the records with salary less than 70 000
+6 - a get endpoint that searches the records by the name 
+7 - a get endpoint that returns top 50 people with the highest salaries
+
  
