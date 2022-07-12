@@ -2,6 +2,9 @@ package com.oli.steven.spring.mongo.api.controller;
 
 import com.oli.steven.spring.mongo.api.model.Salaries;
 import com.oli.steven.spring.mongo.api.repository.SalariesRepository;
+import com.oli.steven.spring.mongo.api.service.SalariesService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -22,10 +25,14 @@ import java.util.Locale;
 
 @RequestMapping("/api")
 @RestController
+@Slf4j
 public class SalariesController {
 
         private static final String FILE_NAME = "src/main/resources/salaries1.xlsx";
         private static final DataFormatter formatter = new DataFormatter(Locale.US);
+        @Autowired
+        private SalariesService salariesService;
+        @Autowired
         private final MongoTemplate mongoTemplate;
 
         @Autowired
@@ -41,35 +48,8 @@ public class SalariesController {
         }
 
         @GetMapping("/import")
-        public void importExcelFile() throws IOException {
-
-                FileInputStream excelFile = new FileInputStream(new File(FILE_NAME));
-                List<Salaries> salariesList = new ArrayList<Salaries>();
-                XSSFWorkbook workbook = new XSSFWorkbook(excelFile);
-                XSSFSheet worksheet = workbook.getSheetAt(0);
-
-                for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) {
-                        Salaries salariePerson = new Salaries();
-
-                        XSSFRow row = worksheet.getRow(i);
-                        if (row == null) {
-                                continue;
-                        } else {
-
-                                salariePerson.setFirstName(formatter.formatCellValue(row.getCell(0)));
-                                salariePerson.setLastName(formatter.formatCellValue(row.getCell(1)));
-                                salariePerson.setFullName(formatter.formatCellValue(row.getCell(2)));
-                                salariePerson.setTaxId(formatter.formatCellValue(row.getCell(3)));
-                                salariePerson.setCompanyName(formatter.formatCellValue(row.getCell(4)));
-                                salariePerson.setPlaceOfWork(formatter.formatCellValue(row.getCell(5)));
-                                salariePerson.setSalary((double) row.getCell(6).getNumericCellValue());
-                                salariePerson.setOccupation(formatter.formatCellValue(row.getCell(7)));
-                                salariePerson.setNotes(formatter.formatCellValue(row.getCell(8)));
-                                salariesList.add(salariePerson);
-                        }
-                }
-                        salariesRepository.saveAll(salariesList);
-                        System.out.println("Added: " + salariesList.size());
+        public List<Salaries> importExcelFile() throws IOException {
+                return salariesService.getAllSalaries();
         }
 
         @GetMapping("/readExcel")
